@@ -1,6 +1,6 @@
 ## features
 
-TORRETAS
+Implementação basica das torretas
 
 Resetar a posição do jogador ao trocar de estado (reiniciar)
 
@@ -26,6 +26,10 @@ menu pause
 mapa (tamanho maior, adicionar obstaculos, upgrades, etc)
 
 Camera que se move com o jogador (depende de criar um mapa maior)
+
+(Feito - Spawnrates modificados) Spawn rates ou stats dos inimigos modificados dependendo do progresso
+
+Vida do jogador
 
 # ideias
 

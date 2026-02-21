@@ -20,3 +20,9 @@ PLAYER_LIFE = 100
 
 # Configurações de INICIO
 START_POS = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+# configurações dos inimigos
+# stats = (size, life, speed, color)
+HEAVY_STATS = (30, 150, 60, (0, 100, 0), False)      # verde escuro
+NORMAL_STATS = (20, 100, 100, (0, 170, 0), False)    # verde médio
+FAST_STATS = (10, 50, 200, (120, 255, 120), False)   # verde claro

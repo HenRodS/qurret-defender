@@ -1,5 +1,6 @@
 import pygame
 import random
+import src.config as config
 from src.entities import enemy
 
 class Manager:
@@ -36,7 +37,15 @@ class Manager:
         # 6. Atualiza a barra de progresso
         self.progress = self.enemies_defeated / self.meta
 
-        # 6. Verifica se chegou no boss
+        # 7. Muda o spawn-rate conforme avança
+        if self.progress <= 0.5:
+            self.spawn_cooldown = 2.0
+        elif self.progress <= 0.75:
+            self.spawn_cooldown = 1.5
+        elif self.progress < 1:
+            self.spawn_cooldown = 1.0
+        
+        # 7. Verifica se chegou no boss
         if self.progress >= 1:
             self.enemies = []
             self.spawn_boss(player.pos)
@@ -62,21 +71,11 @@ class Manager:
         self.enemies.append(new_boss)
 
     def spawn_enemy(self, player_pos):
-        # Cria um vetor que aponta para a direita
+        # mesmos comandos que a função anterior
         spawn_vec = pygame.math.Vector2(800, 0) # raio de 800 (fora da tela)
-
-        # Rotaciona o vetor aleatoriamente entre 0 e 360 graus
         angle = random.uniform(0, 360)
         spawn_vec = spawn_vec.rotate(angle)
-
-        # A posição final é a posição do player + o vetor de spawn
         final_pos = player_pos + spawn_vec
-
-        # Cria o inimigo e adiciona na lista
-        # stats = (size, life, speed, color)
-        heavy_stats = (30, 150, 60, (0, 100, 0), False)      # verde escuro
-        normal_stats = (20, 100, 100, (0, 170, 0), False)    # verde médio
-        fast_stats = (10, 50, 200, (120, 255, 120), False)   # verde claro
 
         # probabilidade de spawn
         spawn_normal = 0.7
@@ -86,12 +85,13 @@ class Manager:
         # escolhe o tipo de inimigo
         spawn_type = random.choices(["normal", "fast", "heavy"], [spawn_normal, spawn_fast, spawn_heavy])[0]
 
+        # Cria o inimigo e adiciona na lista
         if spawn_type == "normal":
-            new_enemy = enemy(final_pos, normal_stats)
+            new_enemy = enemy(final_pos, config.NORMAL_STATS)
         elif spawn_type == "fast":
-            new_enemy = enemy(final_pos, fast_stats)
+            new_enemy = enemy(final_pos, config.FAST_STATS)
         elif spawn_type == "heavy":
-            new_enemy = enemy(final_pos, heavy_stats)
+            new_enemy = enemy(final_pos, config.HEAVY_STATS)
 
         self.enemies.append(new_enemy)
 
