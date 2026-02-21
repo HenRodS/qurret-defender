@@ -9,7 +9,7 @@ class Manager:
         self.spawn_timer = 0
         self.spawn_cooldown = 2.0
         self.enemies_defeated = 0
-        self.meta = 2
+        self.meta = 10
         self.progress = 0
         self.boss_spawned = False
 
@@ -123,7 +123,7 @@ class Manager:
         for enemy in self.enemies:
             if enemy.life <= 0:
                 if enemy.is_boss:
-                    self.state = "GAMEOVER"
+                    self.state = "GAMEOVER" # TODO: mudar para vitoria  
                 enemy.active = False
                 self.enemies_defeated += 1
 

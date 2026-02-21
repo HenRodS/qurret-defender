@@ -12,10 +12,12 @@ Sistema de upgrades
 
 Sprites do jogador e dos inimigos
 
-boss battle
+("FEITO" - Está muito simples) boss battle
+adicionar um comportamento diferente ao boss
 
-Barra de progresso
+(FEITO) Barra de progresso
 
+Comportamento especifico dos inimigos
 
 menu principal
 menu gameover
