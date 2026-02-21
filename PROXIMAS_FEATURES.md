@@ -6,13 +6,16 @@ Resetar a posição do jogador ao trocar de estado (reiniciar)
 
 (FEITO - 100 de vida, e 25 de dano por bala) Melhorar o sistema de vidas do inimigos, e mudar também o dano por bala (ADICIONAR DANO POR BALA)
 
-Inimigos diferentes
+(FEITO - 3 tipos de inimigos) Inimigos diferentes
 
 Sistema de upgrades
 
 Sprites do jogador e dos inimigos
 
 boss battle
+
+Barra de progresso
+
 
 menu principal
 menu gameover

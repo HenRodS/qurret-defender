@@ -1,6 +1,5 @@
 import pygame
 import random
-import math
 from src.entities import enemy
 
 class Manager:
@@ -25,8 +24,6 @@ class Manager:
         # 3. Checa colisao
         self.check_collision(player)
 
-        # 
-
         # 4. Remove os inimigos mortos
         self.enemies = [enemy for enemy in self.enemies if enemy.active]
 
@@ -42,7 +39,26 @@ class Manager:
         final_pos = player_pos + spawn_vec
 
         # Cria o inimigo e adiciona na lista
-        new_enemy = enemy(final_pos, 20, 100, (0, 255, 0))
+        # stats = (size, life, speed, color)
+        heavy_stats = (30, 150, 60, (0, 100, 0))      # verde escuro
+        normal_stats = (20, 100, 100, (0, 170, 0))    # verde médio
+        fast_stats = (10, 50, 200, (120, 255, 120))   # verde claro
+
+        # probabilidade de spawn
+        spawn_normal = 0.7
+        spawn_fast = 0.2
+        spawn_heavy = 0.1
+
+        # escolhe o tipo de inimigo
+        spawn_type = random.choices(["normal", "fast", "heavy"], [spawn_normal, spawn_fast, spawn_heavy])[0]
+
+        if spawn_type == "normal":
+            new_enemy = enemy(final_pos, normal_stats)
+        elif spawn_type == "fast":
+            new_enemy = enemy(final_pos, fast_stats)
+        elif spawn_type == "heavy":
+            new_enemy = enemy(final_pos, heavy_stats)
+
         self.enemies.append(new_enemy)
 
     def draw(self, screen):

@@ -87,20 +87,17 @@ class projectile(object):
 
 
 class enemy(object):
-    def __init__(self, pos, size, life, color):
+    def __init__(self, pos, stats):
 
         self.pos = pos
-        self.size = size
-        self.color = color
-        self.speed = 100
+        self.size, self.life, self.speed, self.color = stats
         self.direction = pygame.Vector2(0, 0)
         self.active = True
         self.hitbox = pygame.Rect(0, 0, self.size * 2, self.size * 2)
         self.hitbox.center = self.pos
 
         #Variaveis de vida
-        self.max_life = life
-        self.life = life
+        self.max_life = self.life
         self.show_health = True
     
     def update(self, dt, player):
