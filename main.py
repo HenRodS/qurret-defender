@@ -1,43 +1,58 @@
 import pygame
 import src.config as config
-import src.models as models
+import src.entities as entities
+from src.manager import Manager
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 clock = pygame.time.Clock()
-running = True
-
-player = models.player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2), config.PLAYER_SIZE, config.COLOR_PLAYER)
 dt = 0
+
+player = entities.player(pygame.Vector2(config.START_POS), config.PLAYER_SIZE, config.PLAYER_LIFE, config.PLAYER_COLOR)
+manager = Manager()
 
 # Loop Principal
 # ORDEM IMPORTANTE: EVENTOS, LÓGICA, DESENHO, FINALIZAÇÃO
+running = True
 while running:
     # 1. EVENTOS
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # 2. LÓGICA / UPDATE
+
+    # 2. teclas
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]: player.pos.y -= config.PLAYER_SPEED * dt
     if keys[pygame.K_s]: player.pos.y += config.PLAYER_SPEED * dt
     if keys[pygame.K_a]: player.pos.x -= config.PLAYER_SPEED * dt
     if keys[pygame.K_d]: player.pos.x += config.PLAYER_SPEED * dt
-    
-    # 3. DESENHO (DRAW)
-    screen.fill("purple") # Limpa a tela primeiro
+    if keys[pygame.K_SPACE]: player.shoot()
 
-    # Desenha o Jogador
-    player.draw(screen)
+    if manager.state == "PLAYING":
+        manager.update(dt, player)
+        player.update(dt)
 
-    # Atualiza o Jogador
-    player.update(dt)
+        # 3. DESENHO (DRAW)
+        screen.fill("purple") # Limpa a tela primeiro
 
-    # Desenha a Mira (Triângulo)
-    player.draw_mira(screen)
-    
+        player.draw(screen)
+        player.draw_mira(screen)
+        manager.draw(screen)
+
+        # Desenha e atualiza os projeteis
+        for projectile in player.projectiles:
+            projectile.draw(screen)
+            projectile.update(dt)
+            if not projectile.active:
+                player.projectiles.remove(projectile)
+
+    if manager.state == "GAMEOVER":
+        screen.fill("black")
+
+        if keys[pygame.K_SPACE]: manager.reset()
+
     # 4. FINALIZAÇÃO
     pygame.display.flip() # Só chama o flip DEPOIS de desenhar tudo
     dt = clock.tick(60) / 1000
