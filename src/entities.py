@@ -90,7 +90,7 @@ class enemy(object):
     def __init__(self, pos, stats):
 
         self.pos = pos
-        self.size, self.life, self.speed, self.color = stats
+        self.size, self.life, self.speed, self.color, self.is_boss = stats
         self.direction = pygame.Vector2(0, 0)
         self.active = True
         self.hitbox = pygame.Rect(0, 0, self.size * 2, self.size * 2)
