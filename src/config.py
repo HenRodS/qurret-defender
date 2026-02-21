@@ -9,10 +9,14 @@ MAX_TURRETS = 3         # Limite inicial de 'a' a 'e'
 BOSS_DISTANCE = 10000   # Pontos/Distância necessária para o Boss (100%)
 
 # Cores (se não usar letras) ou Cores das Letras
-COLOR_PLAYER = (139, 69, 19)   # Marrom
 COLOR_ENEMY = (0, 100, 0)      # Verde Escuro
 COLOR_TURRET = (255, 255, 255) # Branco
 
 # Configurações do Jogador
 PLAYER_SPEED = 300
 PLAYER_SIZE = 10
+PLAYER_COLOR = (139, 69, 19)   # Marrom
+PLAYER_LIFE = 100
+
+# Configurações de INICIO
+START_POS = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
