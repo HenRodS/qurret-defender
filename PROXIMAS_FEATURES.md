@@ -1,10 +1,10 @@
 ## features
 
-Implementação basica das torretas
+(Fazendo) Implementação basica das torretas
 
 Resetar a posição do jogador ao trocar de estado (reiniciar)
 
-(FEITO - 100 de vida, e 25 de dano por bala) Melhorar o sistema de vidas do inimigos, e mudar também o dano por bala (ADICIONAR DANO POR BALA)
+(FEITO) Melhorar o sistema de vidas do inimigos, e mudar também o dano por bala (ADICIONAR DANO POR BALA)
 
 (FEITO - 3 tipos de inimigos) Inimigos diferentes
 

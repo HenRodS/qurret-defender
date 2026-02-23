@@ -22,8 +22,8 @@ Só um jogo estilo Vampire Survivors com torretas
 
 Explique os controles:
 
-- ⬅️ ➡️ Movimentar
-- ⬆️ Pular
+- W A S D → Movimentar
 - Espaço → Atacar
+- Mouse → mirar
 
 ---

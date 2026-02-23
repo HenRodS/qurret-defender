@@ -1,12 +1,13 @@
 import pygame
 import random
 import src.config as config
-from src.entities import enemy
+from src.entities import enemy, turret
 
 class Manager:
     def __init__(self):
         self.state = "PLAYING"
         self.enemies = []
+        self.turrets = []
         self.spawn_timer = 0
         self.spawn_cooldown = 2.0
         self.enemies_defeated = 0
@@ -54,10 +55,15 @@ class Manager:
             self.enemies_defeated = 0
             self.boss_spawned = True
 
+        # lida com as torretas do jogador
+        for t in self.turrets:
+            t.update(dt, self.enemies)
+        self.turrets = [turret for turret in self.turrets if turret.active]
+
 
     def spawn_boss(self, player_pos):
         # Cria um vetor que aponta para a direita
-        spawn_vec = pygame.math.Vector2(150, 0) # raio de 800 (fora da tela)
+        spawn_vec = pygame.math.Vector2(800, 0) # raio de 800 (fora da tela)
 
         # Rotaciona o vetor aleatoriamente entre 0 e 360 graus
         angle = random.uniform(0, 360)
@@ -66,8 +72,7 @@ class Manager:
         # A posição final é a posição do player + o vetor de spawn
         final_pos = player_pos + spawn_vec
 
-        boss_stats = (50, 500, 100, (255, 0, 0), True)
-        new_boss = enemy(final_pos, boss_stats)
+        new_boss = enemy(final_pos, config.BOSS_STATS)
         self.enemies.append(new_boss)
 
     def spawn_enemy(self, player_pos):
@@ -96,6 +101,9 @@ class Manager:
         self.enemies.append(new_enemy)
 
     def draw(self, screen):
+        for turret in self.turrets:
+            turret.draw(screen)
+
         for enemy  in self.enemies:
             enemy.draw(screen)
 
@@ -107,11 +115,18 @@ class Manager:
     # (nao sei se devo fazer isso em uma funcao separada)
     def check_collision(self, player):
         for enemy in self.enemies:
-            # Colisão entre inimigo-projetil
+            # 1. Tiros do Jogador
             for projectile in player.projectiles:
                 if enemy.hitbox.colliderect(projectile.hitbox):
                     projectile.active = False
                     enemy.life -= projectile.damage
+
+            # 2. Tiros das Torretas
+            for t in self.turrets:
+                for p in t.projectiles:
+                    if enemy.hitbox.colliderect(p.hitbox):
+                        p.active = False
+                        enemy.life -= p.damage
 
             # Colisão entre inimigo-jogador
             if enemy.hitbox.colliderect(player.hitbox):
@@ -127,9 +142,15 @@ class Manager:
                 enemy.active = False
                 self.enemies_defeated += 1
 
+    def spawn_turret(self, player):
+        if not len(self.turrets) >= config.MAX_TURRETS:
+            new_turret = turret(player.pos.copy(), config.COLOR_TURRET, config.TURRET_SIZE)
+            self.turrets.append(new_turret)
+
 
     def reset(self):
         self.enemies = []
+        self.turrets = []
         self.spawn_timer = 0
         self.spawn_cooldown = 2.0
         self.enemies_defeated = 0

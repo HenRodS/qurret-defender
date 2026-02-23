@@ -21,6 +21,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_e:
+                manager.spawn_turret(player)
+
 
     # 2. teclas
     keys = pygame.key.get_pressed()
